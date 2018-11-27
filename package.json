@@ -1,0 +1,24 @@
+{
+  "name": "create-wxapp-cli",
+  "version": "0.0.1",
+  "description": "Set up a miniprogram (wechat app) by running one command.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottjeremy/create-wxapp-cli.git"
+  },
+  "keywords": [
+    "create-wxapp-cli",
+    "wxapp",
+    "wxapp-cli"
+  ],
+  "author": "scott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scottjeremy/create-wxapp-cli/issues"
+  },
+  "homepage": "https://github.com/scottjeremy/create-wxapp-cli#readme"
+}
