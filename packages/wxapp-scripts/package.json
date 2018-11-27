@@ -1,0 +1,27 @@
+{
+  "name": "wxapp-scripts",
+  "version": "0.0.2",
+  "description": "This package includes scripts and configuration used by create-wxapp-cli.",
+  "main": "./bin/wxapp-scripts",
+  "bin": {
+    "wxapp-scripts": "wxapp-scripts.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottjeremy/create-wxapp-cli.git"
+  },
+  "keywords": [
+    "create-wxapp-cli",
+    "wxapp",
+    "wxapp-scripts"
+  ],
+  "author": "scott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scottjeremy/create-wxapp-cli/issues"
+  },
+  "homepage": "https://github.com/scottjeremy/create-wxapp-cli#readme"
+}
