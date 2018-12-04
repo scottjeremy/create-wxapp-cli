@@ -16,21 +16,41 @@ try {
         // 列出项目名称
         inquirer.prompt([
           {
+            type: 'input',
+            name: 'name',
+            message: 'Project name',
+            default: name
+          },
+          {
+            type: 'input',
+            name: 'description',
+            message: 'Project description',
+            default: 'A miniprogram project',
+          },
+          {
+            type: 'input',
+            name: 'author',
+            message: 'Author',
+            default: 'modojs'
+          },
+          {
             type: 'list',
             name: 'language',
-            message: '请选择编译语言\n',
+            message: 'Select compiler language',
+            default: 'ts',
             choices: ['ts', 'js']
           },
           {
             type: 'list',
             name: 'style',
-            message: '请选择预编译样式\n',
+            message: 'Select compiler style',
+            default: 'scss',
             choices: ['scss', 'less']
           },
         ]).then(answer => {
           console.log(name, answer);
           const spinner = ora('正在下载模板...').start();
-          download('direct:https://github.com/scottjeremy/create-wxapp-cli#master', name, {clone: true}, (err) => {
+          download('direct:https://github.com/modojs/quickstart-miniprogram.git#master', name, {clone: true}, (err) => {
             if(err) {
               spinner.fail();
               console.log(symbols.error, chalk.red(err));
