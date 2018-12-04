@@ -6,14 +6,15 @@ const download = require('download-git-repo');
 const ora = require('ora');
 const symbols = require('log-symbols');
 const handlebars = require('handlebars');
+const config = require('../src/config');
 
 try {
   program
+    .version('0.0.1', '-v, --version')
     .command('init [name]')
     .description('init project')
     .action((name) => {
       if(!fs.existsSync(name)) {
-        // 列出项目名称
         inquirer.prompt([
           {
             type: 'input',
@@ -40,17 +41,9 @@ try {
             default: 'ts',
             choices: ['ts', 'js']
           },
-          {
-            type: 'list',
-            name: 'style',
-            message: 'Select compiler style',
-            default: 'scss',
-            choices: ['scss', 'less']
-          },
         ]).then(answer => {
-          console.log(name, answer);
-          const spinner = ora('正在下载模板...').start();
-          download('direct:https://github.com/modojs/quickstart-miniprogram.git#master', name, {clone: true}, (err) => {
+          const spinner = ora('Template Downloading...').start();
+          download(`direct:${config.git.url}#${answer.language}`, name, {clone: true}, (err) => {
             if(err) {
               spinner.fail();
               console.log(symbols.error, chalk.red(err));
@@ -59,23 +52,39 @@ try {
               const fileName = `${name}/package.json`;
               if(fs.existsSync(fileName)){
                 const content = fs.readFileSync(fileName).toString();
-                const result = handlebars.compile(content);
+                const temp = handlebars.compile(content);
                 const meta = {
-                  name,
-                  language: answer.language,
-                  style: answer.style
-                }
-                // fs.writeFileSync(fileName, result);
+                  name: answer.name || name,
+                  description: answer.description,
+                  author: answer.author
+                };
+                const result = temp(meta);
+                fs.writeFileSync(fileName, result);
               }
-              console.log(symbols.success, chalk.green('项目初始化完成'));
+              console.log(symbols.success, chalk.green('project init successd!\n'));
+              console.log('  ' + symbols.info, chalk.green('$ cd ' + answer.name || name));
+              console.log('  ' + symbols.info, chalk.green('$ npm install'));
+              console.log('  ' + symbols.info, chalk.green('$ npm run dev\n'));
+              console.log(symbols.success, chalk.green('Happy Hacking!'));
             }
           });
         });
       } else {
-        // 错误提示项目已存在，避免覆盖原有项目
-        console.log(symbols.error, chalk.red('项目已存在'));
+        console.log(symbols.error, chalk.red(name + 'aleady exists'));
       }
+    })
+    program.on('-h, --help', function(){
+      console.log('\nSet up a miniprogram (wechat app) by running one command.');
+      console.log('Examples:');
+      console.log('  $ create-wxapp-cli init myProject');
     });
+    program
+    .command('*')
+    .action(function() {
+      console.log('\nSet up a miniprogram (wechat app) by running one command.');
+      console.log('\nExamples:');
+      console.log('  $ create-wxapp-cli init myProject');
+    })
   program.parse(process.argv);
 } catch (error) {
   console.error(error)
